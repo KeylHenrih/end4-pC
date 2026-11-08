@@ -194,7 +194,7 @@ AbstractBackgroundWidget {
 
                         StyledText {
                             Layout.fillWidth: true
-                            text: "Hi, " + root.username + "!"
+                            text: Translation.tr("Hi, %1!").arg(root.username)
                             font.pixelSize: Appearance.font.pixelSize.normal
                             font.weight: Font.Bold
                             color: Appearance.colors.colOnPrimaryContainer
@@ -608,7 +608,7 @@ AbstractBackgroundWidget {
                                 }
                                 StyledText {
                                     Layout.alignment: Qt.AlignHCenter
-                                    text: "days"
+                                    text: Translation.tr("days")
                                     font.pixelSize: Appearance.font.pixelSize.smaller
                                     color: Appearance.colors.colOnPrimaryContainer
                                     opacity: 0.6
@@ -633,7 +633,7 @@ AbstractBackgroundWidget {
                                 }
                                 StyledText {
                                     Layout.alignment: Qt.AlignHCenter
-                                    text: "hours"
+                                    text: Translation.tr("hours")
                                     font.pixelSize: Appearance.font.pixelSize.smaller
                                     color: Appearance.colors.colOnPrimaryContainer
                                     opacity: 0.6
@@ -658,7 +658,7 @@ AbstractBackgroundWidget {
                                 }
                                 StyledText {
                                     Layout.alignment: Qt.AlignHCenter
-                                    text: "min"
+                                    text: Translation.tr("min")
                                     font.pixelSize: Appearance.font.pixelSize.smaller
                                     color: Appearance.colors.colOnPrimaryContainer
                                     opacity: 0.6

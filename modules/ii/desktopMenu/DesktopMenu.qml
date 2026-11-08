@@ -185,11 +185,11 @@ Scope {
 
                         Repeater {
                             model: [
-                                { icon: "format_paint", label: "Wallpaper & style", kind: "wallpaper" },
-                                { icon: "widgets", label: "Widgets", kind: "widgets" },
-                                { icon: "stacks", label: "DropShelf", kind: "dropshelf" },
-                                { icon: "video_template", label: "Live Wallpaper", kind: "live" },
-                                { icon: "settings", label: "Settings", kind: "settings" }
+                                { icon: "format_paint", label: Translation.tr("Wallpaper & style"), kind: "wallpaper" },
+                                { icon: "widgets", label: Translation.tr("Widgets"), kind: "widgets" },
+                                { icon: "stacks", label: Translation.tr("DropShelf"), kind: "dropshelf" },
+                                { icon: "video_template", label: Translation.tr("Live Wallpaper"), kind: "live" },
+                                { icon: "settings", label: Translation.tr("Settings"), kind: "settings" }
                             ]
 
                             delegate: Rectangle {
@@ -225,7 +225,7 @@ Scope {
                                         anchors { fill: parent; leftMargin: 12; rightMargin: 12 }
                                         spacing: 12
                                         MaterialSymbol { text: menuRow.modelData.icon; iconSize: Appearance.font.pixelSize.larger; color: Appearance.colors.colOnLayer1 }
-                                        StyledText { Layout.fillWidth: true; text: menuRow.modelData.label; font.pixelSize: Appearance.font.pixelSize.normal; color: Appearance.colors.colOnLayer1 }
+                                        StyledText { Layout.fillWidth: true; text: Translation.tr(menuRow.modelData.label); font.pixelSize: Appearance.font.pixelSize.normal; color: Appearance.colors.colOnLayer1 }
                                         StyledText {
                                             visible: menuRow.modelData.kind === "dropshelf" && DropShelf.items.length > 0
                                             text: DropShelf.items.length

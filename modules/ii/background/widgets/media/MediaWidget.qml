@@ -329,7 +329,7 @@ AbstractBackgroundWidget {
 
                         StyledText {
                             Layout.fillWidth: true
-                            text: root.currentPlayer?.trackArtist ?? "Play"
+                            text: root.currentPlayer?.trackArtist ?? Translation.tr("Play")
                             font.pixelSize: Appearance.font.pixelSize.small
                             font.weight: Font.DemiBold
                             color: Appearance.colors.colOnPrimaryContainer
@@ -468,7 +468,7 @@ AbstractBackgroundWidget {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: root.currentPlayer?.trackArtist ?? "Play"
+                        text: root.currentPlayer?.trackArtist ?? Translation.tr("Play")
                         font.pixelSize: Appearance.font.pixelSize.normal
                         font.weight: Font.DemiBold
                         color: Appearance.colors.colOnPrimaryContainer
@@ -622,7 +622,7 @@ AbstractBackgroundWidget {
 
                             StyledText {
                                 Layout.fillWidth: true
-                                text: root.currentPlayer?.trackArtist ?? "Play"
+                                text: root.currentPlayer?.trackArtist ?? Translation.tr("Play")
                                 font.pixelSize: Appearance.font.pixelSize.normal
                                 font.weight: Font.DemiBold
                                 color: Appearance.colors.colOnPrimaryContainer
@@ -836,7 +836,7 @@ AbstractBackgroundWidget {
                             }
                             StyledText {
                                 Layout.fillWidth: true
-                                text: root.currentPlayer?.trackArtist ?? "Something"
+                                text: root.currentPlayer?.trackArtist ?? Translation.tr("Something")
                                 font.pixelSize: Appearance.font.pixelSize.smaller
                                 color: Appearance.colors.colOnPrimaryContainer
                                 opacity: 0.65

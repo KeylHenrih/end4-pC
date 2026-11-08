@@ -69,7 +69,7 @@ AbstractBackgroundWidget {
             }
 
             StyledText {
-                text: statCard.label
+                text: Translation.tr(statCard.label)
                 font.pixelSize: Appearance.font.pixelSize.small
                 color: Appearance.colors.colOnPrimaryContainer
                 opacity: 0.6

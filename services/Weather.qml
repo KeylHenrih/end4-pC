@@ -54,11 +54,10 @@ Singleton {
             : "0%"
         temp.humidity = (data?.main?.humidity || 0) + "%"
 
-        const fmt = (unix) => new Date(unix * 1000).toLocaleTimeString("en-US", {
-            hour: "numeric",
+        const fmt = (unix) => new Date(unix * 1000).toLocaleTimeString(Qt.locale().name, {
+            hour: "2-digit",
             minute: "2-digit",
-            second: "2-digit",
-            hour12: true
+            hour12: false
         })
 
         temp.sunrise = data?.sys?.sunrise ? fmt(data.sys.sunrise) : "0"
@@ -110,7 +109,9 @@ Singleton {
             url += `q=${formatCityName(root.city)}`
         }
 
+        let lang = (Translation?.languageCode ?? "ru_RU").split(/[_.@-]/)[0]
         url += `&units=${units}`
+        url += `&lang=${lang}`
         url += `&appid=${apiKey}`
 
         let command = `curl -s "${url}"`
