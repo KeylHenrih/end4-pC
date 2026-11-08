@@ -48,7 +48,8 @@ Singleton {
         const rainMm = data?.rain?.["1h"] || data?.rain?.["3h"] || 0
         const snowMm = data?.snow?.["1h"] || data?.snow?.["3h"] || 0
 
-        temp.description = Translation.tr(data?.weather?.[0]?.description || "")
+        const rawDesc = Translation.tr(data?.weather?.[0]?.description || "")
+        temp.description = rawDesc.length > 0 ? (rawDesc.charAt(0).toUpperCase() + rawDesc.slice(1)) : ""
         temp.cr = data?.clouds?.all !== undefined
             ? Math.round(data.clouds.all * 0.8) + "%"
             : "0%"

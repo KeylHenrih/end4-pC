@@ -36,6 +36,11 @@ AbstractBackgroundWidget {
     property real widgetHeight: (root.sizeMode === "2x2" || root.sizeMode === "2x3") ? root.doubleHeight : root.cardHeight
     readonly property bool isCompact: root.sizeMode !== "1x3" && root.sizeMode !== "2x3"
 
+    function formatDescription(desc) {
+        const text = Translation.tr(desc ?? "");
+        return text.length > 0 ? (text.charAt(0).toUpperCase() + text.slice(1)) : "";
+    }
+
     function modeForWidth(value) {
         var mid1 = (root.snapWidth1 + root.snapWidth2) / 2
         var mid2 = (root.snapWidth2 + root.snapWidth3) / 2
@@ -188,7 +193,7 @@ AbstractBackgroundWidget {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: Translation.tr(Weather.data?.description ?? "--")
+                        text: root.formatDescription(Weather.data?.description)
                         font.pixelSize: Appearance.font.pixelSize.smaller
                         color: Appearance.colors.colOnPrimaryContainer
                         opacity: 0.65
@@ -295,7 +300,7 @@ AbstractBackgroundWidget {
                         }
                         StyledText {
                             Layout.fillWidth: true
-                            text: Translation.tr(Weather.data?.description ?? "--")
+                            text: root.formatDescription(Weather.data?.description)
                             font.pixelSize: Appearance.font.pixelSize.smaller
                             font.weight: Font.Medium
                             color: Appearance.colors.colOnPrimaryContainer
@@ -507,7 +512,7 @@ AbstractBackgroundWidget {
                         spacing: -2
 
                         StyledText {
-                            text: Translation.tr(Weather.data?.description ?? "")
+                            text: root.formatDescription(Weather.data?.description)
                             font.pixelSize: Appearance.font.pixelSize.normal
                             font.weight: Font.DemiBold
                             color: Appearance.colors.colOnPrimaryContainer
@@ -699,7 +704,7 @@ AbstractBackgroundWidget {
                         spacing: 2
 
                         StyledText {
-                            text: Translation.tr(Weather.data?.description ?? "")
+                            text: root.formatDescription(Weather.data?.description)
                             font.pixelSize: Appearance.font.pixelSize.normal
                             font.weight: Font.DemiBold
                             color: Appearance.colors.colOnPrimaryContainer
