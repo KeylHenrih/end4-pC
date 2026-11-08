@@ -34,7 +34,7 @@ AbstractBackgroundWidget {
     implicitWidth:  widgetWidth
     implicitHeight: widgetHeight
 
-    property string localCityName: Weather.data?.city ?? "..."
+    property string localCityName: Translation.tr(Weather.data?.city ?? "...")
     property string localTime: DateTime.time
     property string localDate: Qt.locale().toString(new Date(), "dddd, MMMM dd yyyy")
     property var worldCities: WorldClock.entries

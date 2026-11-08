@@ -78,25 +78,25 @@ AbstractBackgroundWidget {
     function weatherQuip() {
         const desc = (Weather.data?.description ?? "").toLowerCase();
         const temp = Weather.data?.temp ?? "--";
-        if (desc.includes("rain"))
-            return { text: `• raining, grab a coffee`, icon: "coffee" };
-        if (desc.includes("clear"))
-            return { text: `• good day to touch grass`, icon: "eco" };
-        if (desc.includes("cloud"))
-            return { text: `• a bit cloudy today`, icon: "cloud" };
-        if (desc.includes("snow"))
-            return { text: `• snowing`, icon: "ac_unit" };
-        return { text: `• ${Weather.data?.description ?? ""}`, icon: "thermostat" };
+        if (desc.includes("rain") || desc.includes("дожд"))
+            return { text: `• ${Translation.tr("raining, grab a coffee")}`, icon: "coffee" };
+        if (desc.includes("clear") || desc.includes("ясн"))
+            return { text: `• ${Translation.tr("good day to touch grass")}`, icon: "eco" };
+        if (desc.includes("cloud") || desc.includes("облач") || desc.includes("пасмурн"))
+            return { text: `• ${Translation.tr("a bit cloudy today")}`, icon: "cloud" };
+        if (desc.includes("snow") || desc.includes("снег"))
+            return { text: `• ${Translation.tr("snowing")}`, icon: "ac_unit" };
+        return { text: `• ${Translation.tr(Weather.data?.description ?? "")}`, icon: "thermostat" };
     }
 
     function greetingFor(hour) {
-        if (hour < 12) return "Good Morning"
-        if (hour < 18) return "Good Afternoon"
-        return "Good Evening"
+        if (hour < 12) return Translation.tr("Good Morning")
+        if (hour < 18) return Translation.tr("Good Afternoon")
+        return Translation.tr("Good Evening")
     }
 
     readonly property string greetingText: greetingFor(DateTime.hour24)
-    readonly property string todayString: "Today • " + DateTime.clock.date.toLocaleDateString(Qt.locale(), "dddd d MMM")
+    readonly property string todayString: Translation.tr("Today") + " • " + DateTime.clock.date.toLocaleDateString(Qt.locale(), "dddd d MMM")
 
     // Uptime split into days / hours / minutes for the 2x3 stats row
     property int uptimeSeconds: 0

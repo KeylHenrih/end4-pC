@@ -9,7 +9,7 @@ StyledPopup {
     id: root
 
     readonly property string description: {
-        const text = Weather.data?.description ?? "";
+        const text = Translation.tr(Weather.data?.description ?? "");
         return text.length > 0 ? text.charAt(0).toUpperCase() + text.slice(1) : "";
     }
 
@@ -56,7 +56,7 @@ StyledPopup {
                             StyledText {
                                 Layout.fillWidth: true
                                 elide: Text.ElideRight
-                                text: Weather.data?.city ?? ""
+                                text: Translation.tr(Weather.data?.city ?? "")
                                 font.pixelSize: Appearance.font.pixelSize.normal
                                 font.weight: Font.DemiBold
                                 color: Appearance.colors.colOnPrimaryContainer

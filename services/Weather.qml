@@ -48,7 +48,7 @@ Singleton {
         const rainMm = data?.rain?.["1h"] || data?.rain?.["3h"] || 0
         const snowMm = data?.snow?.["1h"] || data?.snow?.["3h"] || 0
 
-        temp.description = data?.weather?.[0]?.description || ""
+        temp.description = Translation.tr(data?.weather?.[0]?.description || "")
         temp.cr = data?.clouds?.all !== undefined
             ? Math.round(data.clouds.all * 0.8) + "%"
             : "0%"
@@ -65,7 +65,7 @@ Singleton {
 
         temp.windDir = data?.wind?.deg || 0
         temp.wCode = data?.weather?.[0]?.id || 0
-        temp.city = data?.name || "City"
+        temp.city = Translation.tr(data?.name || root.city || "City")
 
         if (root.useUSCS) {
             temp.wind = (data?.wind?.speed || 0) + " mph"
@@ -116,7 +116,7 @@ Singleton {
 
         let command = `curl -s "${url}"`
 
-        fetcher.command[2] = command
+        fetcher.command = ["bash", "-c", command]
         fetcher.running = true
     }
 

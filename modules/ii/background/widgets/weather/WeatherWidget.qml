@@ -116,7 +116,7 @@ AbstractBackgroundWidget {
                 }
                 StyledText {
                     Layout.fillWidth: true
-                    text: Weather.data?.city ?? "--"
+                    text: Translation.tr(Weather.data?.city ?? "--")
                     font.pixelSize: Appearance.font.pixelSize.small
                     color: Appearance.colors.colOnPrimaryContainer
                     opacity: 0.6
@@ -179,7 +179,7 @@ AbstractBackgroundWidget {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: Weather.data?.city ?? "--"
+                        text: Translation.tr(Weather.data?.city ?? "--")
                         font.pixelSize: Appearance.font.pixelSize.normal
                         font.weight: Font.Bold
                         color: Appearance.colors.colOnPrimaryContainer
@@ -188,7 +188,7 @@ AbstractBackgroundWidget {
 
                     StyledText {
                         Layout.fillWidth: true
-                        text: Weather.data?.description ?? "--"
+                        text: Translation.tr(Weather.data?.description ?? "--")
                         font.pixelSize: Appearance.font.pixelSize.smaller
                         color: Appearance.colors.colOnPrimaryContainer
                         opacity: 0.65
@@ -295,7 +295,7 @@ AbstractBackgroundWidget {
                         }
                         StyledText {
                             Layout.fillWidth: true
-                            text: Weather.data?.description ?? "--"
+                            text: Translation.tr(Weather.data?.description ?? "--")
                             font.pixelSize: Appearance.font.pixelSize.smaller
                             font.weight: Font.Medium
                             color: Appearance.colors.colOnPrimaryContainer
@@ -317,7 +317,7 @@ AbstractBackgroundWidget {
                         opacity: 0.7
                     }
                     StyledText {
-                        text: Weather.data?.city ?? "--"
+                        text: Translation.tr(Weather.data?.city ?? "--")
                         font.pixelSize: Appearance.font.pixelSize.small
                         font.weight: Font.Medium
                         color: Appearance.colors.colOnPrimaryContainer
@@ -507,14 +507,14 @@ AbstractBackgroundWidget {
                         spacing: -2
 
                         StyledText {
-                            text: Weather.data?.description ?? ""
+                            text: Translation.tr(Weather.data?.description ?? "")
                             font.pixelSize: Appearance.font.pixelSize.normal
                             font.weight: Font.DemiBold
                             color: Appearance.colors.colOnPrimaryContainer
                             elide: Text.ElideRight
                         }
                         StyledText {
-                            text: Weather.data?.city ?? "--"
+                            text: Translation.tr(Weather.data?.city ?? "--")
                             font.pixelSize: Appearance.font.pixelSize.small
                             color: Appearance.colors.colOnPrimaryContainer
                             opacity: 0.6
@@ -683,7 +683,7 @@ AbstractBackgroundWidget {
                                 opacity: 0.7
                             }
                             StyledText {
-                                text: Weather.data?.city ?? "--"
+                                text: Translation.tr(Weather.data?.city ?? "--")
                                 font.pixelSize: Appearance.font.pixelSize.small
                                 font.weight: Font.Medium
                                 color: Appearance.colors.colOnPrimaryContainer

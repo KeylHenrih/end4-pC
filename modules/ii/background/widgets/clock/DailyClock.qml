@@ -126,7 +126,7 @@ Item {
                 spacing: 4
                 visible: root.weatherLine.length > 0
                 Txt {
-                    text: Weather.data?.description ?? ""
+                    text: Translation.tr(Weather.data?.description ?? "")
                     font {
                         pixelSize: Appearance.font.pixelSize.larger
                         weight: 500
@@ -308,7 +308,7 @@ Item {
                     }
                 }
                 StyledText {
-                    text: (Weather.data?.temp ?? "") + " " + (Weather.data?.description ?? "")
+                    text: (Weather.data?.temp ?? "") + " " + Translation.tr(Weather.data?.description ?? "")
                     color: Appearance.colors.colOnPrimary
                     opacity: 0.8
                 }
