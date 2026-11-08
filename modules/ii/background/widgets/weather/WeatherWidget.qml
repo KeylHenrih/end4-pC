@@ -243,11 +243,11 @@ AbstractBackgroundWidget {
                                 spacing: 6
                                 MaterialSymbol {
                                     iconSize: 16
-                                    text: "rainy"
+                                    text: "readiness_score"
                                     color: Appearance.colors.colPrimary
                                 }
                                 StyledText {
-                                    text: Weather.data?.cr ?? "--"
+                                    text: Weather.data?.press ?? "--"
                                     font.pixelSize: Appearance.font.pixelSize.smaller
                                     font.weight: Font.Bold
                                     color: Appearance.colors.colOnSurfaceVariant ?? Appearance.colors.colOnPrimaryContainer
@@ -387,20 +387,20 @@ AbstractBackgroundWidget {
 
                             MaterialSymbol {
                                 iconSize: 16
-                                text: "rainy"
+                                text: "readiness_score"
                                 color: Appearance.colors.colPrimary
                             }
                             ColumnLayout {
                                 Layout.fillWidth: true
                                 spacing: 0
                                 StyledText {
-                                    text: Translation.tr("Rain")
+                                    text: Translation.tr("Pressure")
                                     font.pixelSize: Appearance.font.pixelSize.smaller
                                     color: Appearance.colors.colOnSurfaceVariant ?? Appearance.colors.colOnPrimaryContainer
                                     opacity: 0.6
                                 }
                                 StyledText {
-                                    text: Weather.data?.cr ?? "--"
+                                    text: Weather.data?.press ?? "--"
                                     font.pixelSize: Appearance.font.pixelSize.small
                                     font.weight: Font.Bold
                                     color: Appearance.colors.colOnSurfaceVariant ?? Appearance.colors.colOnPrimaryContainer
@@ -587,11 +587,11 @@ AbstractBackgroundWidget {
                             spacing: 6
                             MaterialSymbol {
                                 iconSize: 16
-                                text: "rainy"
+                                text: "readiness_score"
                                 color: Appearance.colors.colPrimary
                             }
                             StyledText {
-                                text: Weather.data?.cr ?? "--"
+                                text: Weather.data?.press ?? "--"
                                 font.pixelSize: Appearance.font.pixelSize.smaller
                                 font.weight: Font.Bold
                                 color: Appearance.colors.colOnSurfaceVariant ?? Appearance.colors.colOnPrimaryContainer
@@ -829,7 +829,7 @@ AbstractBackgroundWidget {
 
                             MaterialSymbol {
                                 iconSize: 20
-                                text: "rainy"
+                                text: "readiness_score"
                                 color: Appearance.colors.colPrimary
                             }
 
@@ -837,13 +837,13 @@ AbstractBackgroundWidget {
                                 spacing: 0
                                 Layout.fillWidth: true
                                 StyledText {
-                                    text: Translation.tr("Rain Chance")
+                                    text: Translation.tr("Pressure")
                                     font.pixelSize: Appearance.font.pixelSize.smaller
                                     color: Appearance.colors.colOnSurfaceVariant ?? Appearance.colors.colOnPrimaryContainer
                                     opacity: 0.6
                                 }
                                 StyledText {
-                                    text: Weather.data?.cr ?? "--"
+                                    text: Weather.data?.press ?? "--"
                                     font.pixelSize: Appearance.font.pixelSize.small
                                     font.weight: Font.Bold
                                     color: Appearance.colors.colOnSurfaceVariant ?? Appearance.colors.colOnPrimaryContainer
