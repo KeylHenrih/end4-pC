@@ -284,10 +284,14 @@ Singleton {
         readonly property list<real> standard: [0.2, 0, 0, 1, 1, 1]
         readonly property list<real> standardAccel: [0.3, 0, 1, 1, 1, 1]
         readonly property list<real> standardDecel: [0, 0, 0, 1, 1, 1]
-        readonly property real expressiveFastSpatialDuration: 350
-        readonly property real expressiveDefaultSpatialDuration: 500
-        readonly property real expressiveSlowSpatialDuration: 650
-        readonly property real expressiveEffectsDuration: 200
+        // Retimed for perceived smoothness on a 60 Hz panel. The curve shapes
+        // above are untouched, so the motion still reads as the same design
+        // language; only the clock changed. 500/650 ms for shell surfaces made
+        // sidebars and popups feel like they were catching up to the cursor.
+        readonly property real expressiveFastSpatialDuration: 220
+        readonly property real expressiveDefaultSpatialDuration: 300
+        readonly property real expressiveSlowSpatialDuration: 400
+        readonly property real expressiveEffectsDuration: 150
     }
 
     animation: QtObject {
@@ -320,7 +324,7 @@ Singleton {
         }
 
         property QtObject elementMoveEnter: QtObject {
-            property int duration: 400
+            property int duration: 260
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.emphasizedDecel
             property int velocity: 650
@@ -335,7 +339,7 @@ Singleton {
         }
 
         property QtObject elementMoveExit: QtObject {
-            property int duration: 200
+            property int duration: 160
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.emphasizedAccel
             property int velocity: 650
@@ -368,7 +372,7 @@ Singleton {
         }
 
         property QtObject elementResize: QtObject {
-            property int duration: 300
+            property int duration: 200
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.emphasized
             property int velocity: 650
@@ -383,7 +387,7 @@ Singleton {
         }
 
         property QtObject clickBounce: QtObject {
-            property int duration: 400
+            property int duration: 260
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.expressiveDefaultSpatial
             property int velocity: 850
@@ -402,12 +406,12 @@ Singleton {
         }
 
         property QtObject menuDecel: QtObject {
-            property int duration: 350
+            property int duration: 220
             property int type: Easing.OutExpo
         }
 
         property QtObject sidebarSlideEnter: QtObject {
-            property int duration: 300
+            property int duration: 240
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.standardDecel
             property int velocity: 650
@@ -422,7 +426,7 @@ Singleton {
         }
 
         property QtObject sidebarSlideExit: QtObject {
-            property int duration: 250
+            property int duration: 200
             property int type: Easing.BezierSpline
             property list<real> bezierCurve: animationCurves.standardAccel
             property int velocity: 650
