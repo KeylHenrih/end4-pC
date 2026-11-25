@@ -42,7 +42,7 @@ Maintained by **KeylHenrih**
 
 This is not a plain mirror of upstream. The fork is in sync with
 `pctrade/end4-pC` (omni-search, the dock work, the media player are all pulled
-in), and on top of that sit its own changes: 17 code files, +154/−113 lines,
+in), and on top of that sit its own changes: 19 code files, +165/−118 lines,
 plus the rewritten READMEs. They add no new panels or widgets: the fork is about
 making the shell Russian, responsive, and tidy in the details.
 
@@ -124,6 +124,18 @@ survives fork updates.
 
 - `.gitignore` gained `*.bak`, so local copies left over from tuning no longer
   show up in `git status`.
+- **The distro logo on the About page now always resolves.** The page looked
+  the logo up through the active system icon theme, while this shell keeps its
+  own distro icons in `assets/icons` — with a theme that has no matching file
+  the lookup logged `Could not load icon "arch-symbolic"` and fell back to the
+  generic Arch logo instead of the configured one. It now uses the same
+  `CustomIcon` as the settings card, honouring `custom.distroIcon`,
+  `colorizeIcon`, `iconColor` and `iconsPath`.
+- **Hover-less popups no longer complain in the log.** `StyledPopup` declares
+  `shouldShow` as a `bool`, but with `hoverTarget == null` the expression
+  `null && …` yields `null`, which QML refuses to assign — one line per start
+  for each of the seven popups opened programmatically. Behaviour is unchanged;
+  the expression simply produces the `bool` its type declares.
 
 ### Files this fork touches
 
@@ -141,6 +153,8 @@ modules/ii/background/widgets/weather/WeatherWidget.qml
 modules/ii/background/widgets/worldclock/WorldClockWidget.qml
 modules/ii/bar/WeatherPopup.qml
 modules/ii/desktopMenu/DesktopMenu.qml
+modules/ii/settings/pages/About.qml                distro logo
+modules/common/widgets/StyledPopup.qml             bool type in shouldShow
 services/Weather.qml                               weather and locale
 shell.qml                                          deferred startup
 ```
