@@ -1,21 +1,18 @@
-
-
-
-
 <div align="center">
 
 # 💠 end4-pC
 
-**A personal fork of [illogical-impulse](https://github.com/end-4/dots-hyprland) by [@end-4](https://github.com/end-4)**  
-Customized and maintained by **pctrade**
+**Форк [end4-pC](https://github.com/pctrade/end4-pC) от [@pctrade](https://github.com/pctrade),
+который сам является форком [illogical-impulse](https://github.com/end-4/dots-hyprland) от [@end-4](https://github.com/end-4)**
+Обслуживается **KeylHenrih**
 
-[English](README.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
+[Русский](README.md) | [English](README.en.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
 </div>
 
 ---
 
-## 🎬 Showcase
+## 🎬 Демонстрация
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=o0Vsh7eVchs">
@@ -23,113 +20,196 @@ Customized and maintained by **pctrade**
   </a>
 </p>
 
-</div>
-
 ---
 
-## 📸 Screenshots
+## 📸 Скриншоты
+
 <div align="center">
 
-| 🎵 Lyrics | 🖼️ Online Wallpapers |
+| 🎵 Тексты песен | 🖼️ Онлайн-обои |
 |:---:|:---:|
-| ![Screenshot 1](screenshots/1.png) | ![Screenshot 2](screenshots/2.png) |
-| 🪟 Desktop Widgets | 🔧 Hyprland Configs |
-| ![Screenshot 5](screenshots/5.png) | ![Screenshot 6](screenshots/6.png) |
-| ⚙️ Configurable Bar | ✨ And More |
-| ![Screenshot 3](screenshots/3.png) | ![Screenshot 4](screenshots/4.png) |
+| ![Скриншот 1](screenshots/1.png) | ![Скриншот 2](screenshots/2.png) |
+| 🪟 Виджеты рабочего стола | 🔧 Конфиги Hyprland |
+| ![Скриншот 5](screenshots/5.png) | ![Скриншот 6](screenshots/6.png) |
+| ⚙️ Настраиваемая панель | ✨ И многое другое |
+| ![Скриншот 3](screenshots/3.png) | ![Скриншот 4](screenshots/4.png) |
 
 </div>
 
 ---
 
-## 🎨 Community Presets
+## 🔧 Что своего в этом форке
 
-Share your whole desktop with one button, or try someone else's in a click.
+Это не просто зеркало апстрима. Поверх `6f461b4` лежат девять собственных
+коммитов, и они касаются в первую очередь русского языка, отзывчивости
+интерфейса и мелких деталей оформления:
 
-**[end4-pCpresets](https://github.com/pctrade/end4-pCpresets)** is the community gallery for this shell. Open **Dashboard → Presets**, pick a preset and press **Download** to try it or **Install** to keep it. Made your own? Press **Upload**, choose a screenshot and it is sent for you with one click. The first time, a terminal opens to install the [GitHub CLI](https://cli.github.com) (`gh`) and sign you in, which takes a minute. If you skip that, the shell opens a GitHub page where you drag the folder in instead. Changed your mind? **Remove from gallery** takes your own preset back out.
+**Локализация**
 
-- 🔒 **Private by design:** nothing is collected from you. The shell only reads public files from GitHub.
-- 🧹 **Clean exports:** personal paths, keys and commands are removed before anything is shared.
-- ✅ **Every preset is checked** automatically. First-time authors are reviewed by hand, and trusted authors are merged automatically once the check passes.
-- 👤 **Yours stays yours:** only the person who shared a preset can change or remove it.
+- Строки виджетов обёрнуты в `Translation.tr` — погода, ресурсы, заметки,
+  список дел, часы, карточка пользователя и всплывающее окно погоды теперь
+  переводятся, а не остаются английскими.
+- Погода переведена целиком: описание, название города и шутки-подписи.
+- Названия погодных условий пишутся с заглавной буквы, как принято в русском.
 
-[Browse the gallery](https://github.com/pctrade/end4-pCpresets) · [How to share yours](https://github.com/pctrade/end4-pCpresets#share-your-preset)
+**Погода**
+
+- Вместо вероятности дождя виджет показывает атмосферное давление — оно
+  стабильно информативно, тогда как процент осадков в Open-Meteo часто пуст.
+
+**Оформление**
+
+- Иконки системного трея получили скругление через `OpacityMask` — форма
+  совпадает с остальными элементами панели.
+- Overview раскрывается из центра, а не «падает» вниз от панели: так это
+  читается как проявление рабочих столов, а не ещё одна выезжающая панель.
+
+**Отзывчивость**
+
+- Кривые анимаций шелла пересчитаны под 60 Гц: длительности 500–650 мс
+  снижены до 300–400 мс, чтобы оболочка не отставала на такт от композитора.
+  Форма кривых не тронута — язык движения сохранён.
+- Тяжёлые сервисы (сканирование обоев, проверка обновлений, тексты песен)
+  стартуют отложенно, через 300 мс после первого кадра. Оболочка появляется
+  сразу, а не ждёт окончания всей инициализации.
+
+> [!NOTE]
+> Этот форк отстаёт от `pctrade/end4-pC` примерно на 29 коммитов: в апстриме
+> появились omni-search в лаунчере, подсказки в доке и другие улучшения,
+> которых здесь пока нет — их не было в живом шелле на момент форка.
+> Если нужно подтянуть их, добавьте апстрим и смёржьте:
+>
+> ```bash
+> git remote add upstream https://github.com/pctrade/end4-pC.git
+> git fetch upstream
+> git merge upstream/main
+> ```
 
 ---
 
-## ⚡ Installation
+## 🎨 Пресеты сообщества
+
+Поделиться всем рабочим столом одной кнопкой или примерить чужой в один клик.
+
+**[end4-pCpresets](https://github.com/pctrade/end4-pCpresets)** — галерея
+сообщества для этого шелла, общая для апстрима и форков. Откройте
+**Dashboard → Presets**, выберите пресет и нажмите **Download**, чтобы
+примерить, или **Install**, чтобы оставить себе. Сделали свой? Нажмите
+**Upload**, выберите скриншот — и он уйдёт одним нажатием. В первый раз
+откроется терминал, который поставит [GitHub CLI](https://cli.github.com)
+(`gh`) и попросит войти, это займёт минуту. Если пропустить этот шаг, шелл
+откроет страницу GitHub, куда можно перетащить папку вручную. Передумали?
+**Remove from gallery** заберёт ваш пресет обратно.
+
+- 🔒 **Приватность по умолчанию:** у вас ничего не собирают, шелл только
+  читает публичные файлы с GitHub.
+- 🧹 **Чистый экспорт:** личные пути, ключи и команды вырезаются перед
+  публикацией.
+- ✅ **Каждый пресет проверяется** автоматически. Авторов, публикующихся
+  впервые, просматривают вручную, доверенные проходят автоматом после
+  успешной проверки.
+- 👤 **Своё остаётся своим:** изменить или удалить пресет может только тот,
+  кто его выложил.
+
+[Открыть галерею](https://github.com/pctrade/end4-pCpresets) · [Как поделиться своим](https://github.com/pctrade/end4-pCpresets#share-your-preset)
+
+---
+
+## ⚡ Установка
 
 > [!NOTE]
-> This fork manages its own configuration folder independently — it does **not** overwrite or modify any existing setup. However, it does require [illogical-impulse](https://github.com/end-4/dots-hyprland) to be installed and running.
+> Форк ведёт свою папку конфигурации независимо и **не** перезаписывает
+> существующую настройку. Но ему нужен установленный и работающий
+> [illogical-impulse](https://github.com/end-4/dots-hyprland) — это база,
+> сам шелл её не заменяет.
 
 ```bash
 cd ~/.config/quickshell/
-git clone https://github.com/pctrade/end4-pC.git
+git clone https://github.com/KeylHenrih/end4-pC.git
 killall qs 2>/dev/null; qs -c end4-pC > /dev/null 2>&1 & disown
 ```
 
-### 🔧 Set as your default shell (optional)
+### 🔧 Сделать шеллом по умолчанию (необязательно)
 
-If you like it and want it to load by default instead of `ii`, edit:
+Если он понравился и вы хотите, чтобы вместо `ii` загружался он, откройте:
 
 ```bash
 ~/.config/hypr/hyprland/variables.lua
 ```
 
-And change this line:
+и замените строку:
 
 ```lua
 hl.env("qsConfig", "ii")
 ```
 
-to:
+на:
 
 ```lua
 hl.env("qsConfig", "end4-pC")
 ```
 
 > [!TIP]
-> After saving, restart Hyprland or run `hyprctl reload` to apply the change.
+> После сохранения перезапустите Hyprland или выполните `hyprctl reload`.
 
----
+### ⚙️ Клавиша настроек
 
-### ⚙️ Settings keybind
-
-To open the settings panel, add this to your Hyprland config:
+Чтобы открыть панель настроек, добавьте в конфиг Hyprland:
 
 ```lua
 hl.bind("SUPER + escape", hl.dsp.global("quickshell:settingsToggle"), {description = "Toggle settings"})
 ```
 
-> **Note:** Settings is an overlay panel, not a regular window — `Super + Q` won't close it. Use the same keybind to toggle it or press `Escape`.
+> **Замечание:** настройки — это оверлей, а не обычное окно, поэтому
+> `Super + Q` его не закроет. Используйте ту же клавишу для переключения
+> или нажмите `Escape`.
 
 ---
 
-## ❓ FAQ
+## ❓ Частые вопросы
 
-### How do I see my keybinds?
+### Как посмотреть свои клавиши?
 
-Open the launcher (`SUPER`) and type `<` — it'll show you the full list of configured keybinds.
+Откройте лаунчер (`SUPER`) и наберите `<` — он покажет полный список
+настроенных привязок.
 
-### Why doesn't Settings have a search bar?
+### Почему в настройках нет поиска?
 
-It doesn't need one — the launcher already does that job. Open the launcher (`SUPER`) and just type what you're looking for (e.g. `wallpaper`, `bar`, `blur`); it'll match against page names and section keywords and jump you straight to the right Settings page, so there's no need for a separate search inside Settings itself.
+Он там не нужен — с этим справляется лаунчер. Откройте его (`SUPER`) и просто
+наберите, что ищете (например, `wallpaper`, `bar`, `blur`): строка
+сопоставится с названиями страниц и ключевыми словами разделов и сразу
+перенесёт на нужную страницу настроек. Отдельный поиск внутри самих настроек
+был бы дублированием.
 
 ---
 
-## 🙏 Credits
+## 🙏 Благодарности
 
-Huge thanks to the people who made this possible:
+Огромное спасибо людям, без которых это существует:
 
-- **[@end-4](https://github.com/end-4)** — for creating the original [dots-hyprland](https://github.com/end-4/dots-hyprland) / illogical-impulse shell. An absolute masterpiece of a dotfiles project 🫡
-- **[@gh0stzk](https://github.com/gh0stzk)** — for providing the weather API integration that made the weather widget possible 🙌
-- **[@StarS2112](https://github.com/StarS2112)** — for showcasing this fork 🙌
-- **[@simeulinuxkaliaiwr](https://github.com/simeulinuxkaliaiwr)** — for some shader transitions 🎨
+- **[@end-4](https://github.com/end-4)** — за оригинальный
+  [dots-hyprland](https://github.com/end-4/dots-hyprland) /
+  illogical-impulse. Настоящий шедевр среди dotfiles-проектов 🫡
+- **[@pctrade](https://github.com/pctrade)** — за end4-pC, от которого
+  сделан этот форк, и за галерею пресетов сообщества 🙌
+- **[@gh0stzk](https://github.com/gh0stzk)** — за интеграцию с погодным API,
+  благодаря которой появился виджет погоды 🙌
+- **[@StarS2112](https://github.com/StarS2112)** — за то, что показал этот
+  форк людям 🙌
+- **[@simeulinuxkaliaiwr](https://github.com/simeulinuxkaliaiwr)** — за
+  несколько шейдерных переходов 🎨
+
+---
+
+## 📄 Лицензия
+
+Проект распространяется под [GPL-3.0](LICENSE), как и апстрим. Форк
+сохраняет ту же лицензию и те же права на исходный код.
 
 ---
 
 <div align="center">
 
-Made with ❤️ — feel free to fork and make it your own
+Сделано с ❤️ — форкайте и делайте своим
 
 </div>

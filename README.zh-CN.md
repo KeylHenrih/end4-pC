@@ -6,10 +6,11 @@
 
 # 💠 end4-pC
 
-**[illogical-impulse](https://github.com/end-4/dots-hyprland)（作者：[@end-4](https://github.com/end-4)）的个人分支**
-由 **pctrade** 定制并维护
+**[end4-pC](https://github.com/pctrade/end4-pC)（作者：[@pctrade](https://github.com/pctrade)）的个人分支，
+而它本身又是 [illogical-impulse](https://github.com/end-4/dots-hyprland)（作者：[@end-4](https://github.com/end-4)）的分支**
+由 **KeylHenrih** 维护
 
-[English](README.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
+[Русский](README.md) | [English](README.en.md) | [简体中文](README.zh-CN.md) | [日本語](README.ja.md)
 
 </div>
 
@@ -22,8 +23,6 @@
     <img src="https://img.youtube.com/vi/o0Vsh7eVchs/maxresdefault.jpg" alt="Material 3 Expressive x Linux" width="85%" style="border-radius: 12px; box-shadow: 0px 10px 30px rgba(0,0,0,0.5);"/>
   </a>
 </p>
-
-</div>
 
 ---
 
@@ -63,7 +62,7 @@
 
 ```bash
 cd ~/.config/quickshell/
-git clone https://github.com/pctrade/end4-pC.git
+git clone https://github.com/KeylHenrih/end4-pC.git
 killall qs 2>/dev/null; qs -c end4-pC > /dev/null 2>&1 & disown
 ```
 
@@ -107,6 +106,7 @@ hl.bind("SUPER + escape", hl.dsp.global("quickshell:settingsToggle"), {descripti
 衷心感谢促成此项目的人们：
 
 - **[@end-4](https://github.com/end-4)** — 创建了原始的 [dots-hyprland](https://github.com/end-4/dots-hyprland) / illogical-impulse shell。这个 dotfiles 项目堪称杰作 🫡
+- **[@pctrade](https://github.com/pctrade)** — 创建了本分支所基于的 end4-pC，以及社区预设库 🙌
 - **[@gh0stzk](https://github.com/gh0stzk)** — 提供了天气 API 集成，让天气小组件得以实现 🙌
 - **[@StarS2112](https://github.com/StarS2112)** — 展示了此分支 🙌
 

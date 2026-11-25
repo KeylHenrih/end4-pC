@@ -22,7 +22,7 @@ Singleton {
             DIR="$HOME/.config/quickshell"
 
             rm -rf "$DIR/end4-pC-tmp"
-            git clone https://github.com/pctrade/end4-pC.git "$DIR/end4-pC-tmp"
+            git clone https://github.com/KeylHenrih/end4-pC.git "$DIR/end4-pC-tmp"
 
             rm -rf "$DIR/end4-pC-old"
             [ -d "$DIR/end4-pC" ] && mv "$DIR/end4-pC" "$DIR/end4-pC-old"
