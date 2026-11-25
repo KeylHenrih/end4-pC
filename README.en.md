@@ -40,8 +40,10 @@ Maintained by **KeylHenrih**
 
 ## 🔧 What this fork adds
 
-This is not a plain mirror of upstream. Nine commits sit on top of `6f461b4` —
-21 files, +510/−175 lines. They add no new panels or widgets: the fork is about
+This is not a plain mirror of upstream. The fork is in sync with
+`pctrade/end4-pC` (omni-search, the dock work, the media player are all pulled
+in), and on top of that sit its own changes: 17 code files, +154/−113 lines,
+plus the rewritten READMEs. They add no new panels or widgets: the fork is about
 making the shell Russian, responsive, and tidy in the details.
 
 ### 🇷🇺 Localization
@@ -144,10 +146,9 @@ shell.qml                                          deferred startup
 ```
 
 > [!NOTE]
-> This fork trails `pctrade/end4-pC` by roughly 29 commits: upstream has since
-> gained launcher omni-search, dock tooltips and other improvements that are
-> not here — they were never in the live shell when the fork was taken. To pull
-> them in, add upstream and merge:
+> The fork is in sync with upstream `pctrade/end4-pC`: launcher omni-search,
+> dock tooltips and window previews, the sidebar media player and everything
+> else upstream has shipped is in here. To pick up future changes:
 >
 > ```bash
 > git remote add upstream https://github.com/pctrade/end4-pC.git
