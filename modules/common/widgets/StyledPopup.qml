@@ -14,8 +14,10 @@ LazyLoader {
     property Item hoverTarget
     default property Item contentItem
     property real popupBackgroundMargin: 0
-    readonly property bool shouldShow: root.hoverTarget && root.hoverTarget.containsMouse && Config.options.bar.tooltips.enable && !GlobalStates.barStyleEditorOpen
-        && (!Config.options.bar.tooltips.clickToShow || ((root.hoverTarget.pressedButtons ?? Qt.LeftButton) & Qt.LeftButton))
+    // hoverTarget is null on popups opened programmatically rather than by hover,
+    // and `null && x` evaluates to null - which QML refuses to assign to a bool.
+    readonly property bool shouldShow: !!(root.hoverTarget && root.hoverTarget.containsMouse && Config.options.bar.tooltips.enable && !GlobalStates.barStyleEditorOpen
+        && (!Config.options.bar.tooltips.clickToShow || ((root.hoverTarget.pressedButtons ?? Qt.LeftButton) & Qt.LeftButton)))
     property bool closing: false
     active: root.shouldShow || root.closing
     onShouldShowChanged: if (!root.shouldShow && root.item) root.closing = true
