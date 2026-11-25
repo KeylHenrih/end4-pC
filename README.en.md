@@ -40,40 +40,108 @@ Maintained by **KeylHenrih**
 
 ## 🔧 What this fork adds
 
-This is not a plain mirror of upstream. Nine commits sit on top of `6f461b4`,
-and they deal mainly with Russian localization, interface responsiveness and
-small pieces of polish:
+This is not a plain mirror of upstream. Nine commits sit on top of `6f461b4` —
+21 files, +510/−175 lines. They add no new panels or widgets: the fork is about
+making the shell Russian, responsive, and tidy in the details.
 
-**Localization**
+### 🇷🇺 Localization
 
-- Widget strings are wrapped in `Translation.tr` — weather, resources, notes,
-  the to-do list, the clock, the user card and the weather popup now translate
-  instead of staying English.
-- Weather is translated end to end: its description, the city name and the
-  quips.
-- Weather conditions are capitalized, as Russian typography expects.
+The largest piece of work. Upstream wrote its labels directly in the code, so
+widgets stayed English under a Russian locale.
 
-**Weather**
+- **Strings are moved into `Translation.tr`** — 8 files: the media widget,
+  notes, resources, the to-do list, the user card, weather, the desktop menu
+  and the weather service. Hardcoded text like `` `• raining, grab a coffee` ``
+  became `` `• ${Translation.tr("raining, grab a coffee")}` ``.
+- **Weather is translated end to end** — its description, the city name and the
+  quips. The city comes from your settings
+  (`Config.options.bar.weather.city`), not from the API response, so the name
+  you set is what stays on screen.
+- **Condition names are capitalized** — `Ясно` rather than the lowercase string
+  Open-Meteo returns.
+- **Weather detection understands Russian words.** This is the non-obvious
+  part: upstream matched the condition against English substrings
+  (`desc.includes("rain")`), so with a Russian API response no condition
+  matched and the widget showed a neutral icon. Both languages are checked now:
+  `desc.includes("rain") || desc.includes("дожд")`.
+- **Time is formatted per locale** — `toLocaleTimeString` is called with
+  `Qt.locale().name` instead of a hardcoded `"en-US"`, and the clock is 24-hour.
+- **The API request carries the language** — `&lang=` is appended to the URL,
+  taken from the current locale, so the description arrives in the right
+  language already.
 
-- The widget shows atmospheric pressure instead of rain chance — pressure is
-  consistently informative, whereas the precipitation percentage from
-  Open-Meteo is often empty.
+The shell reads translations from two places: its own `translations/` and
+`~/.config/illogical-impulse/translations/`. The second overrides the first for
+any key it contains, so an extra translation lives apart from the code and
+survives fork updates.
 
-**Looks**
+### 🌡️ Weather
 
-- System tray icons are rounded with an `OpacityMask`, so their shape matches
-  the rest of the bar.
-- The overview unfolds from the centre instead of dropping down from the bar:
-  it reads as the workspaces surfacing rather than yet another panel sliding in.
+- **Atmospheric pressure replaces rain chance.** Open-Meteo returns a
+  precipitation percentage that is simply empty in clear weather, leaving the
+  widget showing a dash. Pressure is informative at all times.
 
-**Responsiveness**
+### 🎨 Looks
 
-- Animation curves are retimed for 60 Hz: durations of 500–650 ms are cut to
-  300–400 ms so the shell no longer trails the compositor by a beat. The curve
-  shapes are untouched — the motion keeps its language.
-- Heavy services (wallpaper scanning, update checks, lyrics) start deferred,
-  300 ms after the first frame. The shell appears immediately instead of
-  waiting for initialization to finish.
+- **Tray icons are rounded** with an `OpacityMask` — 53 lines in
+  `SysTrayItem.qml`. Their shape now matches the rest of the bar instead of
+  standing out as rectangles.
+- **The overview unfolds from the centre.** `transformOrigin: Item.Top` became
+  `Item.Center`: workspaces surface from the middle of the screen rather than
+  dropping down from the bar.
+
+### ⚡ Responsiveness
+
+- **Animation curves are retimed for 60 Hz.** On a 60 Hz panel, durations of
+  500–650 ms read as the shell lagging behind the cursor. Every spatial duration
+  is cut, and the curve shapes are untouched — the motion keeps its language,
+  only the clock changed:
+
+  | Curve | Before | After |
+  |---|---:|---:|
+  | `expressiveFastSpatialDuration` | 350 ms | 220 ms |
+  | `expressiveDefaultSpatialDuration` | 500 ms | 300 ms |
+  | `expressiveSlowSpatialDuration` | 650 ms | 400 ms |
+  | `expressiveEffectsDuration` | 200 ms | 150 ms |
+  | element enter | 400 ms | 260 ms |
+  | element exit | 200 ms | 160 ms |
+  | element resize | 300 ms | 200 ms |
+  | click bounce | 400 ms | 260 ms |
+  | menu deceleration | 350 ms | 220 ms |
+  | sidebar slide in | 300 ms | 240 ms |
+  | sidebar slide out | 250 ms | 200 ms |
+
+- **Heavy services start deferred.** `Component.onCompleted` used to fire
+  everything at once: wallpaper scanning, update checks, lyrics loading, weather
+  and football data hydration. The shell waited for that work to finish. Now
+  `onCompleted` only calls `MaterialThemeLoader.reapplyTheme()`, and the rest
+  starts from `Timer { interval: 300 }` — the first frame gets drawn before the
+  shell turns to initialization.
+
+### 🧹 Small things
+
+- `.gitignore` gained `*.bak`, so local copies left over from tuning no longer
+  show up in `git status`.
+
+### Files this fork touches
+
+```
+modules/common/Appearance.qml                      animation timings
+modules/ii/overview/Overview.qml                   unfold from the centre
+modules/ii/bar/SysTrayItem.qml                     tray icon rounding
+modules/ii/background/widgets/clock/DailyClock.qml
+modules/ii/background/widgets/media/MediaWidget.qml
+modules/ii/background/widgets/notes/NotesWidget.qml
+modules/ii/background/widgets/resources/ResourcesWidget.qml
+modules/ii/background/widgets/todo/TodoWidget.qml
+modules/ii/background/widgets/usercard/UserCardWidget.qml
+modules/ii/background/widgets/weather/WeatherWidget.qml
+modules/ii/background/widgets/worldclock/WorldClockWidget.qml
+modules/ii/bar/WeatherPopup.qml
+modules/ii/desktopMenu/DesktopMenu.qml
+services/Weather.qml                               weather and locale
+shell.qml                                          deferred startup
+```
 
 > [!NOTE]
 > This fork trails `pctrade/end4-pC` by roughly 29 commits: upstream has since
@@ -122,13 +190,42 @@ preset back out.
 > This fork manages its own configuration folder independently — it does **not**
 > overwrite or modify any existing setup. However, it does require
 > [illogical-impulse](https://github.com/end-4/dots-hyprland) to be installed
-> and running; that base is not replaced by this shell.
+> and running; that base is what it inherits Hyprland and quickshell from, and
+> this shell does not replace it.
+
+### 1. The end-4 base
+
+If illogical-impulse isn't installed yet, install it with the official
+installer:
+
+```bash
+bash <(curl -s https://ii.clsty.link/get)
+```
+
+It detects your distribution, installs Hyprland, quickshell and the
+`illogical-impulse-*` packages, and sets up the permissions and services. For a
+minimal install without the extra packages, append `-- --core`. The installer's
+source lives at [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland),
+and its guide is at
+[ii.clsty.link](https://ii.clsty.link/en/ii-qs/01setup/).
+
+> [!IMPORTANT]
+> The old `raw.githubusercontent.com/.../setup.sh` command no longer works: the
+> file was renamed to `setup` and turned into a multi-command script. If you saw
+> that command in an older guide, don't use it — it returns a 404.
+
+The base already installed? Skip straight to the second step.
+
+### 2. This fork
 
 ```bash
 cd ~/.config/quickshell/
 git clone https://github.com/KeylHenrih/end4-pC.git
 killall qs 2>/dev/null; qs -c end4-pC > /dev/null 2>&1 & disown
 ```
+
+Nothing needs configuring for the shell to pick up updates: it does that itself
+through `Dashboard → Updates`, and pulls from this repository.
 
 ### 🔧 Set as your default shell (optional)
 

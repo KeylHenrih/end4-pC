@@ -58,13 +58,32 @@
 ## ⚡ インストール
 
 > [!NOTE]
-> このフォークは独自の設定フォルダーを個別に管理するため、既存の設定を上書きまたは変更することは**ありません**。ただし、[illogical-impulse](https://github.com/end-4/dots-hyprland) がインストールされ、実行中である必要があります。
+> このフォークは独自の設定フォルダーを個別に管理するため、既存の設定を上書きまたは変更することは**ありません**。ただし、[illogical-impulse](https://github.com/end-4/dots-hyprland) がインストールされ、実行中である必要があります。このフォークはそこから Hyprland と quickshell を引き継ぐもので、そのベースを置き換えるものではありません。
+
+### 1. end-4 ベース
+
+illogical-impulse がまだ入っていない場合は、公式インストーラーで導入します。
+
+```bash
+bash <(curl -s https://ii.clsty.link/get)
+```
+
+ディストリビューションを自動判別し、Hyprland、quickshell、`illogical-impulse-*` パッケージを導入して、権限とサービスを設定します。余分なパッケージを省いた最小構成にするには、末尾に `-- --core` を付けます。インストーラーのソースは [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland)、手順は [ii.clsty.link](https://ii.clsty.link/en/ii-qs/01setup/) にあります。
+
+> [!IMPORTANT]
+> 旧来の `raw.githubusercontent.com/.../setup.sh` というコマンドはもう動きません。ファイルは `setup` に改名され、複数のサブコマンドを持つスクリプトになりました。古い記事で見かけても使わないでください。404 が返ります。
+
+ベースがすでに入っている場合は、そのまま 2 へ進んでください。
+
+### 2. このフォーク
 
 ```bash
 cd ~/.config/quickshell/
 git clone https://github.com/KeylHenrih/end4-pC.git
 killall qs 2>/dev/null; qs -c end4-pC > /dev/null 2>&1 & disown
 ```
+
+更新の取得に設定は不要です。`Dashboard → Updates` からシェル自身が行い、取得先はこのリポジトリです。
 
 ### 🔧 デフォルトのシェルに設定する（任意）
 

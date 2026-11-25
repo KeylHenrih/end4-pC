@@ -58,13 +58,32 @@
 ## ⚡ 安装
 
 > [!NOTE]
-> 此分支会独立管理自己的配置文件夹，**不会**覆盖或修改任何现有设置。不过，它要求已安装并正在运行 [illogical-impulse](https://github.com/end-4/dots-hyprland)。
+> 此分支会独立管理自己的配置文件夹，**不会**覆盖或修改任何现有设置。不过，它要求已安装并正在运行 [illogical-impulse](https://github.com/end-4/dots-hyprland)——本分支从它继承 Hyprland 与 quickshell，并不会替换该基础。
+
+### 1. end-4 基础
+
+如果还没有 illogical-impulse，请用官方安装器安装：
+
+```bash
+bash <(curl -s https://ii.clsty.link/get)
+```
+
+它会自动识别发行版，安装 Hyprland、quickshell 和 `illogical-impulse-*` 软件包，并配置权限与服务。想要最小化安装，在命令末尾加上 `-- --core`。安装器源码见 [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland)，说明见 [ii.clsty.link](https://ii.clsty.link/en/ii-qs/01setup/)。
+
+> [!IMPORTANT]
+> 旧的 `raw.githubusercontent.com/.../setup.sh` 命令已失效：该文件已更名为 `setup`，并改成了多子命令脚本。如果在旧教程里看到它，请不要使用——会返回 404。
+
+基础已就绪？直接看第二步。
+
+### 2. 本分支
 
 ```bash
 cd ~/.config/quickshell/
 git clone https://github.com/KeylHenrih/end4-pC.git
 killall qs 2>/dev/null; qs -c end4-pC > /dev/null 2>&1 & disown
 ```
+
+分支会通过 `Dashboard → Updates` 自行检查并拉取更新，指向的正是本仓库，无需额外配置。
 
 ### 🔧 设为默认 shell（可选）
 
