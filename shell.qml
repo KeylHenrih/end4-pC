@@ -42,15 +42,27 @@ ShellRoot {
     }
 
     Component.onCompleted: {
+        // Theme applied immediately so the lock screen renders on correct palette
         MaterialThemeLoader.reapplyTheme()
-        Hyprsunset.load()
-        FirstRunExperience.load()
-        ConflictKiller.load()
-        Cliphist.refresh()
-        Wallpapers.load()
-        Football.load()
-        Updates.load()
-        LyricsService.restartLyrics()
+
+        // Defer heavy services until after the first frame so startup feels instant
+        deferredServicesTimer.start()
+    }
+
+    Timer {
+        id: deferredServicesTimer
+        interval: 300
+        repeat: false
+        onTriggered: {
+            Hyprsunset.load()
+            FirstRunExperience.load()
+            ConflictKiller.load()
+            Cliphist.refresh()
+            Wallpapers.load()
+            Football.load()
+            Updates.load()
+            LyricsService.restartLyrics()
+        }
     }
     
     PanelFamilyLoader {
