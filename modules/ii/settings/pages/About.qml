@@ -42,10 +42,14 @@ ContentPage {
                 radius: 20
                 color: ColorUtils.transparentize(Appearance.colors.colPrimary, 0.9)
 
-                IconImage {
+                CustomIcon {
                     anchors.centerIn: parent
-                    implicitSize: 72
-                    source: Quickshell.iconPath(SystemInfo.logo)
+                    width: 72
+                    height: 72
+                    source: Config.options.custom.distroIcon || SystemInfo.distroIcon
+                    colorize: Config.options.custom.colorizeIcon
+                    color: Appearance.colors["col" + Config.options.custom.iconColor.charAt(0).toUpperCase() + Config.options.custom.iconColor.slice(1)] ?? Appearance.colors.colOnLayer0
+                    customFolder: Config.options.custom.iconsPath
                 }
             }
 
