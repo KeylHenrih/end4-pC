@@ -154,6 +154,53 @@ ContentPage {
             }
 
             ContentSubsection {
+                title: Translation.tr("Omni-search")
+
+                GroupedList {
+                    ConfigSwitch {
+                        buttonIcon: "history"
+                        text: Translation.tr("Suggest pages from browser history")
+                        checked: Config.options.search.omni.enableBrowserHistory
+                        onCheckedChanged: {
+                            Config.options.search.omni.enableBrowserHistory = checked;
+                        }
+                    }
+                    ConfigSwitch {
+                        buttonIcon: "link"
+                        text: Translation.tr("Open a typed domain or URL in the browser")
+                        checked: Config.options.search.omni.enableDirectUrl
+                        onCheckedChanged: {
+                            Config.options.search.omni.enableDirectUrl = checked;
+                        }
+                    }
+                    ConfigSwitch {
+                        buttonIcon: "folder_open"
+                        text: Translation.tr("Search files")
+                        checked: Config.options.search.omni.enableFileSearch
+                        onCheckedChanged: {
+                            Config.options.search.omni.enableFileSearch = checked;
+                        }
+                    }
+                    ConfigSwitch {
+                        buttonIcon: "smart_toy"
+                        text: Translation.tr("Ask an AI provider (needs a configured key)")
+                        checked: Config.options.search.omni.enableAiShortcuts
+                        onCheckedChanged: {
+                            Config.options.search.omni.enableAiShortcuts = checked;
+                        }
+                    }
+                    ConfigSwitch {
+                        buttonIcon: "music_note"
+                        text: Translation.tr("Spotify song search")
+                        checked: Config.options.search.omni.enableSpotify
+                        onCheckedChanged: {
+                            Config.options.search.omni.enableSpotify = checked;
+                        }
+                    }
+                }
+            }
+
+            ContentSubsection {
                 title: Translation.tr("Prefixes")
 
                 GroupedList {
