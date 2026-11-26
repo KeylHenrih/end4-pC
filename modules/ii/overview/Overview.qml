@@ -102,7 +102,9 @@ Scope {
             visible: GlobalStates.overviewOpen
             opacity: GlobalStates.overviewOpen ? 1 : 0
             scale: GlobalStates.overviewOpen ? 1 : 0.85
-            transformOrigin: Item.Top
+            // Centre origin so the overview expands out of the middle of the
+            // screen instead of unfolding downward from the bar.
+            transformOrigin: Item.Center
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
@@ -113,10 +115,10 @@ Scope {
             spacing: -8
 
             Behavior on opacity {
-                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
+                NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
             }
             Behavior on scale {
-                NumberAnimation { duration: 400; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial }
+                NumberAnimation { duration: 360; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial }
             }
 
             Keys.onPressed: event => {

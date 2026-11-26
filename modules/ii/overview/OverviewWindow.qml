@@ -149,6 +149,10 @@ Item { // Window
         Image {
             id: windowIcon
             property real baseSize: Math.min(root.targetWindowWidth, root.targetWindowHeight)
+            // A maximised window makes baseSize the whole workspace, which blew
+            // the icon up to a third of the screen and buried the preview under
+            // it. Cap it so the icon stays a badge whatever the window size.
+            readonly property real maxIconSize: 48
             anchors {
                 top: root.centerIcons ? undefined : parent.top
                 left: root.centerIcons ? undefined : parent.left
@@ -161,7 +165,10 @@ Item { // Window
                 // console.log("Icon ratio:", root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio)
                 // console.log("Scale:", root.monitorData.scale)
                 // console.log("Final:", Math.min(targetWindowWidth, targetWindowHeight) * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio) / root.monitorData.scale)
-                return baseSize * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio);
+                return Math.min(
+                    baseSize * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio),
+                    maxIconSize
+                );
             }
             // mipmap: true
             Layout.alignment: Qt.AlignHCenter

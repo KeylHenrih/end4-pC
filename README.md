@@ -42,7 +42,7 @@
 
 Это не просто зеркало апстрима. Форк синхронизирован с `pctrade/end4-pC`
 (omni-search, док, медиаплеер — всё подтянуто), а поверх лежат собственные
-правки: 22 файла кода, +357/−154 строки, плюс переписанные README. Они не
+правки: 24 файла кода, +370/−158 строк, плюс переписанные README. Они не
 добавляют новых панелей и виджетов: форк занимается тем, чтобы оболочка была
 русской, отзывчивой и аккуратной в мелочах.
 
@@ -86,6 +86,9 @@
 - **Иконки трея скруглены** через `OpacityMask` — 53 строки в
   `SysTrayItem.qml`. Форма иконок теперь совпадает с остальными элементами
   панели, а не выдаётся прямоугольниками.
+- **Overview раскрывается из центра.** Было `transformOrigin: Item.Top`,
+  стало `Item.Center`: рабочие столы проявляются из середины экрана, а не
+  «падают» вниз от панели.
 
 ### ⚡ Отзывчивость
 
@@ -146,6 +149,11 @@
   отступами, текст 15 px вместо 13, иконки 16 px вместо 20, отключённые
   пункты бледнеют до 0.38, а открытие растёт от края бара за 500 мс, как у
   `StyledPopup` и меню в доке.
+- **Иконки приложений в обзоре окон больше не закрывают превью.** У
+  развёрнутого на весь экран окна размер иконки считался от всего окна, и
+  при `centerIcons` она вырастала в треть экрана прямо по центру — поверх
+  содержимого. Теперь размер ограничен 48 px: у больших окон это аккуратный
+  бейдж, у маленьких ничего не меняется.
 - **Раскладка экранной клавиатуры больше не теряется.** Обработчик
   Hyprland-события `activelayout` писал в конфиг имя вида `English` — такого
   ключа в `layouts.js` нет (там `English (US)`, `German`, `Russian`), и OSK
@@ -160,6 +168,7 @@
 
 ```
 modules/common/Appearance.qml                      тайминги анимаций
+modules/ii/overview/Overview.qml                   раскрытие из центра
 modules/ii/bar/SysTrayItem.qml                     скругление иконок трея
 modules/ii/background/widgets/clock/DailyClock.qml
 modules/ii/background/widgets/media/MediaWidget.qml
@@ -175,6 +184,7 @@ modules/ii/settings/pages/About.qml                логотип дистриб
 modules/common/widgets/StyledPopup.qml             тип bool в shouldShow
 modules/ii/bar/SysTrayMenu.qml                     оформление меню трея
 modules/ii/bar/SysTrayMenuEntry.qml                пункты меню трея
+modules/ii/overview/OverviewWindow.qml             размер иконки окна
 modules/ii/settings/pages/ServicesConfig.qml       переключатели omni-search
 services/HyprlandXkb.qml                           валидная раскладка OSK
 services/Weather.qml                               погода и локаль

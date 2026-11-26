@@ -42,7 +42,7 @@ Maintained by **KeylHenrih**
 
 This is not a plain mirror of upstream. The fork is in sync with
 `pctrade/end4-pC` (omni-search, the dock work, the media player are all pulled
-in), and on top of that sit its own changes: 22 code files, +357/−154 lines,
+in), and on top of that sit its own changes: 24 code files, +370/−158 lines,
 plus the rewritten READMEs. They add no new panels or widgets: the fork is about
 making the shell Russian, responsive, and tidy in the details.
 
@@ -88,6 +88,9 @@ survives fork updates.
 - **Tray icons are rounded** with an `OpacityMask` — 53 lines in
   `SysTrayItem.qml`. Their shape now matches the rest of the bar instead of
   standing out as rectangles.
+- **The overview unfolds from the centre.** `transformOrigin: Item.Top` became
+  `Item.Center`: workspaces surface from the middle of the screen rather than
+  dropping down from the bar.
 
 ### ⚡ Responsiveness
 
@@ -147,6 +150,11 @@ survives fork updates.
   insets, 15 px text instead of 13, 16 px icons instead of 20, disabled entries
   dimmed to 0.38, and an opening that grows out of the bar edge over 500 ms the
   way `StyledPopup` and the dock menu do.
+- **App icons in the overview no longer cover the previews.** For a window
+  maximised to the full screen the icon size was computed from the whole window,
+  and with `centerIcons` it grew to a third of the screen dead centre — over the
+  content. It is now capped at 48 px: a tidy badge on large windows, unchanged
+  on small ones.
 - **The on-screen keyboard's layout is no longer lost.** The handler for
   Hyprland's `activelayout` event wrote a name like `English` into the config —
   no such key exists in `layouts.js` (which has `English (US)`, `German`,
@@ -161,6 +169,7 @@ survives fork updates.
 
 ```
 modules/common/Appearance.qml                      animation timings
+modules/ii/overview/Overview.qml                   unfold from the centre
 modules/ii/bar/SysTrayItem.qml                     tray icon rounding
 modules/ii/background/widgets/clock/DailyClock.qml
 modules/ii/background/widgets/media/MediaWidget.qml
@@ -176,6 +185,7 @@ modules/ii/settings/pages/About.qml                distro logo
 modules/common/widgets/StyledPopup.qml             bool type in shouldShow
 modules/ii/bar/SysTrayMenu.qml                     tray menu styling
 modules/ii/bar/SysTrayMenuEntry.qml                tray menu entries
+modules/ii/overview/OverviewWindow.qml             window icon size
 modules/ii/settings/pages/ServicesConfig.qml       omni-search switches
 services/HyprlandXkb.qml                           valid OSK layout name
 services/Weather.qml                               weather and locale
