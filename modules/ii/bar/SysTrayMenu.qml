@@ -19,28 +19,67 @@ PopupWindow {
 
     color: "transparent"
     property real padding: Appearance.sizes.elevationMargin
+    // Held back until the menu has entries (see open()); the timer is a
+    // safety net so a tray item that never answers still shows its menu.
+    property bool waitingForMenu: false
+
+    onEntryCountChanged: {
+        if (root.waitingForMenu && root.entryCount > 0)
+            root.commitOpen();
+    }
+
+    Timer {
+        id: fallbackTimer
+        interval: 400
+        repeat: false
+        onTriggered: root.commitOpen()
+    }
 
     implicitHeight: {
         let result = 0;
         for (let child of stackView.children) {
             result = Math.max(child.implicitHeight, result);
         }
-        return result + popupBackground.padding * 2 + root.padding * 2;
+        // The menu fills in over D-Bus after the popup exists, so the window
+        // has to follow its contents rather than the size it opened with.
+        return Math.max(result, root.entryCount > 0 ? stackView.currentItem.implicitHeight : 0)
+            + popupBackground.padding * 2 + root.padding * 2;
     }
     implicitWidth: {
         let result = 0;
         for (let child of stackView.children) {
             result = Math.max(child.implicitWidth, result);
         }
-        return result + popupBackground.padding * 2 + root.padding * 2;
+        return Math.max(result, root.entryCount > 0 ? stackView.currentItem.implicitWidth : 0)
+            + popupBackground.padding * 2 + root.padding * 2;
     }
 
+    // How many entries the submenu currently on top has. The menu itself
+    // arrives over D-Bus, after the popup would already have been created.
+    readonly property int entryCount: stackView.currentItem ? (stackView.currentItem.entryCount ?? 0) : 0
+
     function open() {
+        // A popup keeps the size it was created with, so showing it before the
+        // menu has arrived clips every entry that comes in later - the window
+        // stays as tall as the pin row alone. Wait for the first batch instead.
+        if (root.entryCount === 0) {
+            root.waitingForMenu = true;
+            fallbackTimer.restart();
+            return;
+        }
+        root.commitOpen();
+    }
+
+    function commitOpen() {
+        fallbackTimer.stop();
+        root.waitingForMenu = false;
         root.visible = true;
         root.menuOpened(root);
     }
 
     function close() {
+        fallbackTimer.stop();
+        root.waitingForMenu = false;
         root.visible = false;
         while (stackView.depth > 1)
             stackView.pop();
@@ -132,6 +171,8 @@ PopupWindow {
         property bool isSubMenu: false
         property bool shown: false
         opacity: shown ? 1 : 0
+        // Lets the popup tell whether the menu has arrived yet.
+        readonly property int entryCount: menuOpener.children.values.length
 
         Behavior on opacity {
             animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
