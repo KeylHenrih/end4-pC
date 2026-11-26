@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import qs.services
 import qs.modules.common
+import qs.modules.common.functions
 import qs.modules.common.widgets
 import QtQuick
 import QtQuick.Controls
@@ -73,7 +74,14 @@ PopupWindow {
     function commitOpen() {
         fallbackTimer.stop();
         root.waitingForMenu = false;
+        // Rewind before showing: the popup is created once and reused, so a
+        // second open has to replay the growth instead of appearing already grown.
+        openAnim.stop();
+        popupBackground.opacity = 0;
+        menuScale.xScale = Config.options.bar.vertical ? 0.01 : 0.8;
+        menuScale.yScale = Config.options.bar.vertical ? 0.8 : 0.01;
         root.visible = true;
+        openAnim.start();
         root.menuOpened(root);
     }
 
@@ -107,7 +115,7 @@ PopupWindow {
                 cardRadius: parent?.radius ?? 0
                 tint: parent?.color ?? 'transparent'
             }
-            readonly property real padding: 4
+            readonly property real padding: 8
             anchors {
                 left: parent.left
                 right: parent.right
@@ -117,20 +125,53 @@ PopupWindow {
                 margins: root.padding
             }
 
-            color: Appearance.colors.colLayer0
-            radius: Appearance.rounding.windowRounding
+            color: Appearance.colors.colUiPopupBackground
+            radius: Appearance.rounding.large + 5
             border.width: 1
             border.color: Appearance.colors.colLayer0Border
             clip: true
 
             opacity: 0
-            Component.onCompleted: opacity = 1
+            // Grows out of the bar edge, the way every other popup does.
+            transform: Scale {
+                id: menuScale
+                origin.x: Config.options.bar.vertical ? (Config.options.bar.bottom ? popupBackground.width : 0) : popupBackground.width / 2
+                origin.y: Config.options.bar.vertical ? popupBackground.height / 2 : (Config.options.bar.bottom ? popupBackground.height : 0)
+                xScale: Config.options.bar.vertical ? 0.01 : 0.8
+                yScale: Config.options.bar.vertical ? 0.8 : 0.01
+            }
+
+            ParallelAnimation {
+                id: openAnim
+                NumberAnimation {
+                    target: menuScale
+                    property: Config.options.bar.vertical ? "xScale" : "yScale"
+                    to: 1
+                    duration: 500
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Appearance.animationCurves.expressiveFastSpatial
+                }
+                NumberAnimation {
+                    target: menuScale
+                    property: Config.options.bar.vertical ? "yScale" : "xScale"
+                    to: 1
+                    duration: Appearance.animationCurves.expressiveDefaultSpatialDuration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial
+                }
+                NumberAnimation {
+                    target: popupBackground
+                    property: "opacity"
+                    to: 1
+                    duration: Appearance.animationCurves.expressiveEffectsDuration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Appearance.animationCurves.expressiveEffects
+                }
+            }
+
             implicitWidth: stackView.implicitWidth + popupBackground.padding * 2
             implicitHeight: stackView.implicitHeight + popupBackground.padding * 2
 
-            Behavior on opacity {
-                animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
-            }
             Behavior on implicitHeight {
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
@@ -196,7 +237,7 @@ PopupWindow {
             active: visible
             sourceComponent: RippleButton {
                 id: backButton
-                buttonRadius: popupBackground.radius - popupBackground.padding
+                buttonRadius: Appearance.rounding.small
                 horizontalPadding: 12
                 implicitWidth: contentItem.implicitWidth + horizontalPadding * 2
                 implicitHeight: 36
@@ -225,7 +266,7 @@ PopupWindow {
         }
         RippleButton {
             id: pinEntry
-            buttonRadius: popupBackground.radius - popupBackground.padding
+            buttonRadius: Appearance.rounding.small
             horizontalPadding: 12
             implicitWidth: contentItem.implicitWidth + horizontalPadding * 2
             implicitHeight: 36
@@ -258,12 +299,21 @@ PopupWindow {
             }
         }
 
-        Rectangle {
+        Item { // Separator
             Layout.fillWidth: true
-            implicitHeight: 1
-            color: Appearance.colors.colSubtext
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
+            implicitHeight: 9
+
+            Rectangle {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: 10
+                    rightMargin: 10
+                }
+                implicitHeight: 1
+                color: ColorUtils.transparentize(Appearance.m3colors.m3outline, 0.7)
+            }
         }
 
         Repeater {
@@ -288,8 +338,6 @@ PopupWindow {
                 forceIconColumn: menuEntriesRepeater.iconColumnNeeded
                 forceSpecialInteractionColumn: menuEntriesRepeater.specialInteractionColumnNeeded
                 menuEntry: modelData
-
-                buttonRadius: popupBackground.radius - popupBackground.padding
 
                 onDismiss: root.close()
                 onOpenSubmenu: handle => {
