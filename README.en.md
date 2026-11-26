@@ -42,7 +42,7 @@ Maintained by **KeylHenrih**
 
 This is not a plain mirror of upstream. The fork is in sync with
 `pctrade/end4-pC` (omni-search, the dock work, the media player are all pulled
-in), and on top of that sit its own changes: 19 code files, +165/−118 lines,
+in), and on top of that sit its own changes: 23 code files, +275/−122 lines,
 plus the rewritten READMEs. They add no new panels or widgets: the fork is about
 making the shell Russian, responsive, and tidy in the details.
 
@@ -136,6 +136,26 @@ survives fork updates.
   `null && …` yields `null`, which QML refuses to assign — one line per start
   for each of the seven popups opened programmatically. Behaviour is unchanged;
   the expression simply produces the `bool` its type declares.
+- **The tray menu no longer opens empty.** A right click on a tray icon would
+  sometimes show a popup with only the "Unpin" row: the menu arrives over D-Bus
+  asynchronously, while a Quickshell popup is created on show and keeps the size
+  it was created with (`clip: true` then cut off everything that arrived later).
+  The popup now waits for the menu's first entry (with a 400 ms fallback timer)
+  before it appears, and its size follows the current submenu.
+- **App icons in the overview no longer cover the previews.** For a window
+  maximised to the full screen the icon size was computed from the whole window,
+  and with `centerIcons` it grew to a third of the screen dead centre — over the
+  content. It is now capped at 48 px: a tidy badge on large windows, unchanged
+  on small ones.
+- **The on-screen keyboard's layout is no longer lost.** The handler for
+  Hyprland's `activelayout` event wrote a name like `English` into the config —
+  no such key exists in `layouts.js` (which has `English (US)`, `German`,
+  `Russian`), so the OSK silently fell back to its default while the junk value
+  survived restarts. Only names the OSK actually knows are written now.
+- **Omni-search now has switches in Settings.** Upstream added five search
+  options (browser history, direct URLs, files, AI, Spotify) with no UI at all —
+  turning browser-history search off meant editing `config.json` by hand. They
+  now live under Settings → Services → Search → Omni-search.
 
 ### Files this fork touches
 
@@ -155,6 +175,10 @@ modules/ii/bar/WeatherPopup.qml
 modules/ii/desktopMenu/DesktopMenu.qml
 modules/ii/settings/pages/About.qml                distro logo
 modules/common/widgets/StyledPopup.qml             bool type in shouldShow
+modules/ii/bar/SysTrayMenu.qml                     waiting for the tray menu
+modules/ii/overview/OverviewWindow.qml             window icon size
+modules/ii/settings/pages/ServicesConfig.qml       omni-search switches
+services/HyprlandXkb.qml                           valid OSK layout name
 services/Weather.qml                               weather and locale
 shell.qml                                          deferred startup
 ```
