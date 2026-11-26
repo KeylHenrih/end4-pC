@@ -28,13 +28,17 @@ Scope {
             && !Config.options.bar.bottom
             && !Config.options.bar.autoHide.enable
         property bool monitorIsFocused: (Hyprland.focusedMonitor?.id == monitor?.id)
-        // Keep the window mapped while the closing animation runs. Binding
-        // `visible` straight to the flag unmapped it the instant the flag
-        // flipped, so the overview vanished in a single frame instead of
-        // shrinking away.
+        // Keep the layer mapped for the whole session instead of unmapping it
+        // whenever the overview is closed. A Wayland layer takes a few hundred
+        // milliseconds to map, which is longer than the open animation itself:
+        // the card used to appear already fully grown, and on the way out it
+        // blinked off and back on while the layer remapped under it. With the
+        // window up from the start, the animation is the only thing that runs.
+        // Nothing renders or takes input while closed — the loader below is
+        // inactive and the mask is empty.
         property bool closing: false
         readonly property bool shown: GlobalStates.overviewOpen || closing
-        visible: shown
+        visible: true
 
         Timer {
             id: closeTimer
