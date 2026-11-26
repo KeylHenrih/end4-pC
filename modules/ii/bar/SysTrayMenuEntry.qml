@@ -106,11 +106,10 @@ RippleButton {
             Loader {
                 anchors.centerIn: parent
                 active: root.menuEntry.icon.length > 0
-                sourceComponent: IconImage {
-                    asynchronous: true
+                sourceComponent: AdaptiveIcon {
                     source: root.menuEntry.icon
-                    implicitSize: Appearance.font.pixelSize.normal
-                    mipmap: true
+                    iconSize: Appearance.font.pixelSize.normal
+                    monochrome: Config.options.tray.monochromeIcons
                 }
             }
         }

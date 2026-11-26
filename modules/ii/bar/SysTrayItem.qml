@@ -72,45 +72,13 @@ MouseArea {
         }
     }
 
-    Item {
-        id: iconContainer
+    AdaptiveIcon {
+        id: trayIcon
         anchors.centerIn: parent
-        width: parent.width
-        height: parent.height
-        layer.enabled: true
-        layer.effect: OpacityMask {
-            maskSource: Rectangle {
-                width: iconContainer.width
-                height: iconContainer.height
-                radius: 5
-            }
-        }
-
-        IconImage {
-            id: trayIcon
-            visible: !Config.options.tray.monochromeIcons
-            source: root.item.icon
-            anchors.fill: parent
-        }
-
-        Loader {
-            active: Config.options.tray.monochromeIcons
-            anchors.fill: parent
-            sourceComponent: Item {
-                Desaturate {
-                    id: desaturatedIcon
-                    visible: false // There's already color overlay
-                    anchors.fill: parent
-                    source: trayIcon
-                    desaturation: 0.8 // 1.0 means fully grayscale
-                }
-                ColorOverlay {
-                    anchors.fill: desaturatedIcon
-                    source: desaturatedIcon
-                    color: ColorUtils.transparentize(Appearance.colors.colOnLayer0, 0.9)
-                }
-            }
-        }
+        // The bar is 44px tall and the tray row is 20px; the plate fills it.
+        iconSize: Math.min(root.width, root.height)
+        source: root.item.icon
+        monochrome: Config.options.tray.monochromeIcons
     }
 
     PopupToolTip {

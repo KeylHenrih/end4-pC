@@ -146,7 +146,7 @@ Item { // Window
             border.width : 1
         }
 
-        Image {
+        AdaptiveIcon {
             id: windowIcon
             property real baseSize: Math.min(root.targetWindowWidth, root.targetWindowHeight)
             // A maximised window makes baseSize the whole workspace, which blew
@@ -159,23 +159,19 @@ Item { // Window
                 centerIn: root.centerIcons ? parent : undefined
                 margins: baseSize * root.iconGapRatio
             }
-            property var iconSize: {
-                // console.log("-=-=-", root.toplevel.title, "-=-=-")
-                // console.log("Target window size:", targetWindowWidth, targetWindowHeight)
-                // console.log("Icon ratio:", root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio)
-                // console.log("Scale:", root.monitorData.scale)
-                // console.log("Final:", Math.min(targetWindowWidth, targetWindowHeight) * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio) / root.monitorData.scale)
-                return Math.min(
-                    baseSize * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio),
-                    maxIconSize
-                );
-            }
-            // mipmap: true
+            // Named differently from AdaptiveIcon's own `iconSize`: declaring a
+            // local property with that name and also assigning it is a
+            // "property value set multiple times" error.
+            property var targetIconSize: Math.min(
+                baseSize * (root.compactMode ? root.iconToWindowRatioCompact : root.iconToWindowRatio),
+                maxIconSize
+            )
             Layout.alignment: Qt.AlignHCenter
             source: root.iconPath
-            width: iconSize
-            height: iconSize
-            sourceSize: Qt.size(iconSize, iconSize)
+            iconSize: windowIcon.targetIconSize
+            monochrome: false
+            width: targetIconSize
+            height: targetIconSize
 
             Behavior on width {
                 animation: Appearance.animation.elementMoveEnter.numberAnimation.createObject(this)

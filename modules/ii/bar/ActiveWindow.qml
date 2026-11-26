@@ -54,10 +54,11 @@ Item {
         implicitWidth: 22
         implicitHeight: 22
 
-        IconImage {
+        AdaptiveIcon {
             anchors.centerIn: parent
             source: root.mainAppIconSource
-            implicitSize: 18
+            iconSize: 18
+            monochrome: Config.options.bar.workspaces.monochromeIcons
             visible: root.mainAppIconSource !== ""
         }
     }

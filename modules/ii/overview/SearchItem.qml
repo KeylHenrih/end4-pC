@@ -156,10 +156,10 @@ RippleButton {
 
         Component {
             id: iconImageComponent
-            IconImage {
+            AdaptiveIcon {
                 source: SystemAppearance.iconPath(root.iconName, "image-missing")
-                width: 35
-                height: 35
+                iconSize: 35
+                monochrome: false
             }
         }
 

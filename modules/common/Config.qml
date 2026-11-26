@@ -118,6 +118,13 @@ Singleton {
                     property string lightVariant: "" // Optional explicit override, empty = auto
                     property string darkVariant: ""
                 }
+                // Shared plate for app logos across the shell. See
+                // modules/common/widgets/AdaptiveIcon.qml.
+                property JsonObject adaptiveIcons: JsonObject {
+                    property string shape: "squircle" // squircle | circle | square | none
+                    property real padding: 0.8 // logo size as a fraction of the plate
+                    property real radius: 0.25 // corner radius as a fraction of the plate
+                }
                 property JsonObject fonts: JsonObject {
                     property string main: "Google Sans Flex"
                     property string numbers: "Google Sans Flex"
