@@ -42,7 +42,7 @@
 
 Это не просто зеркало апстрима. Форк синхронизирован с `pctrade/end4-pC`
 (omni-search, док, медиаплеер — всё подтянуто), а поверх лежат собственные
-правки: 24 файла кода, +370/−158 строк, плюс переписанные README. Они не
+правки: 28 файлов кода, +520/−206 строк, плюс переписанные README. Они не
 добавляют новых панелей и виджетов: форк занимается тем, чтобы оболочка была
 русской, отзывчивой и аккуратной в мелочах.
 
@@ -83,9 +83,14 @@
 
 ### 🎨 Оформление
 
-- **Иконки трея скруглены** через `OpacityMask` — 53 строки в
-  `SysTrayItem.qml`. Форма иконок теперь совпадает с остальными элементами
-  панели, а не выдаётся прямоугольниками.
+- **У логотипов приложений — общая плитка.** В апстриме логотипы рисовались
+  голыми: цветной глиф прямо на фоне, и на OLED-чёрном подложка сливалась.
+  Добавлен компонент `AdaptiveIcon` — скруглённая плитка с логотипом внутри,
+  одна на весь шелл: иконки трея и меню трея, заголовок активного окна,
+  превью окна и строки результатов в обзоре, док. Форма, отступ и радиус
+  настраиваются в `appearance.adaptiveIcons`, цвета берутся из палитры
+  matugen, поэтому плитка меняется вместе с обоями. Монохром остался на
+  прежних переключателях (`tray.monochromeIcons`, `bar.workspaces.monochromeIcons`).
 - **Overview раскрывается из центра.** Было `transformOrigin: Item.Top`,
   стало `Item.Center`: рабочие столы проявляются из середины экрана, а не
   «падают» вниз от панели.
@@ -168,8 +173,12 @@
 
 ```
 modules/common/Appearance.qml                      тайминги анимаций
+modules/common/Config.qml                          опции плитки иконок
+modules/common/widgets/AdaptiveIcon.qml            плитка вместо голого логотипа
+modules/common/widgets/DockAppIcon.qml             иконки дока
 modules/ii/overview/Overview.qml                   раскрытие из центра
-modules/ii/bar/SysTrayItem.qml                     скругление иконок трея
+modules/ii/bar/ActiveWindow.qml                    логотип активного окна
+modules/ii/bar/SysTrayItem.qml                     иконка трея
 modules/ii/background/widgets/clock/DailyClock.qml
 modules/ii/background/widgets/media/MediaWidget.qml
 modules/ii/background/widgets/notes/NotesWidget.qml
@@ -185,6 +194,7 @@ modules/common/widgets/StyledPopup.qml             тип bool в shouldShow
 modules/ii/bar/SysTrayMenu.qml                     оформление меню трея
 modules/ii/bar/SysTrayMenuEntry.qml                пункты меню трея
 modules/ii/overview/OverviewWindow.qml             размер иконки окна
+modules/ii/overview/SearchItem.qml                 иконки в результатах обзора
 modules/ii/settings/pages/ServicesConfig.qml       переключатели omni-search
 services/HyprlandXkb.qml                           валидная раскладка OSK
 services/Weather.qml                               погода и локаль

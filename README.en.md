@@ -42,7 +42,7 @@ Maintained by **KeylHenrih**
 
 This is not a plain mirror of upstream. The fork is in sync with
 `pctrade/end4-pC` (omni-search, the dock work, the media player are all pulled
-in), and on top of that sit its own changes: 24 code files, +370/−158 lines,
+in), and on top of that sit its own changes: 28 code files, +520/−206 lines,
 plus the rewritten READMEs. They add no new panels or widgets: the fork is about
 making the shell Russian, responsive, and tidy in the details.
 
@@ -85,9 +85,15 @@ survives fork updates.
 
 ### 🎨 Looks
 
-- **Tray icons are rounded** with an `OpacityMask` — 53 lines in
-  `SysTrayItem.qml`. Their shape now matches the rest of the bar instead of
-  standing out as rectangles.
+- **App logos sit on a shared plate.** Upstream drew them bare: a coloured
+  glyph straight onto the background, and against the OLED black there was no
+  backing to separate it. `AdaptiveIcon` adds a rounded plate behind the logo,
+  shared by the whole shell: tray and tray-menu icons, the active-window icon,
+  the overview's window previews and search rows, and the dock. Shape, padding
+  and corner radius live under `appearance.adaptiveIcons`, the colours come
+  from the matugen palette so the plate follows the wallpaper, and monochrome
+  stays on the switches the shell already had
+  (`tray.monochromeIcons`, `bar.workspaces.monochromeIcons`).
 - **The overview unfolds from the centre.** `transformOrigin: Item.Top` became
   `Item.Center`: workspaces surface from the middle of the screen rather than
   dropping down from the bar.
@@ -169,8 +175,12 @@ survives fork updates.
 
 ```
 modules/common/Appearance.qml                      animation timings
+modules/common/Config.qml                          icon plate options
+modules/common/widgets/AdaptiveIcon.qml            plate behind app logos
+modules/common/widgets/DockAppIcon.qml             dock icons
 modules/ii/overview/Overview.qml                   unfold from the centre
-modules/ii/bar/SysTrayItem.qml                     tray icon rounding
+modules/ii/bar/ActiveWindow.qml                    active-window logo
+modules/ii/bar/SysTrayItem.qml                     tray icon
 modules/ii/background/widgets/clock/DailyClock.qml
 modules/ii/background/widgets/media/MediaWidget.qml
 modules/ii/background/widgets/notes/NotesWidget.qml
@@ -186,6 +196,7 @@ modules/common/widgets/StyledPopup.qml             bool type in shouldShow
 modules/ii/bar/SysTrayMenu.qml                     tray menu styling
 modules/ii/bar/SysTrayMenuEntry.qml                tray menu entries
 modules/ii/overview/OverviewWindow.qml             window icon size
+modules/ii/overview/SearchItem.qml                 overview result icons
 modules/ii/settings/pages/ServicesConfig.qml       omni-search switches
 services/HyprlandXkb.qml                           valid OSK layout name
 services/Weather.qml                               weather and locale
