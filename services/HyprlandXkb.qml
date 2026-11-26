@@ -20,6 +20,10 @@ Singleton {
     // For the service
     property var baseLayoutFilePath: "/usr/share/X11/xkb/rules/base.lst"
     property bool needsLayoutRefresh: false
+    // The names the on-screen keyboard knows, i.e. the keys of `byName` in
+    // modules/ii/onScreenKeyboard/layouts.js. Hyprland reports keymap names
+    // like "English (US)" and those are what osk.layout expects verbatim.
+    readonly property list<string> oskLayoutNames: ["English (US)", "German", "Russian"]
 
     // Update the layout code according to the layout name (Hyprland gives the name not the code)
     onCurrentLayoutNameChanged: root.updateLayoutCode()
@@ -104,7 +108,14 @@ Singleton {
                 const dataString = event.data;
                 root.currentLayoutName = dataString.substring(dataString.indexOf(",") + 1);
 
-                Config.options.osk.layout = root.currentLayoutName.split(" (")[0];
+                // osk.layout only accepts the names listed in
+                // modules/ii/onScreenKeyboard/layouts.js. This used to strip the
+                // parenthetical, writing "English" for a keymap of "English (US)"
+                // - a name the on-screen keyboard does not know, so it silently
+                // fell back to its default and the user's choice was lost on the
+                // next layout switch.
+                if (root.oskLayoutNames.includes(root.currentLayoutName))
+                    Config.options.osk.layout = root.currentLayoutName;
             } else if (event.name == "configreloaded") {
                 root.needsLayoutRefresh = true;
             }
