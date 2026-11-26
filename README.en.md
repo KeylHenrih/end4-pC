@@ -42,7 +42,7 @@ Maintained by **KeylHenrih**
 
 This is not a plain mirror of upstream. The fork is in sync with
 `pctrade/end4-pC` (omni-search, the dock work, the media player are all pulled
-in), and on top of that sit its own changes: 27 code files, +461/−163 lines,
+in), and on top of that sit its own changes: 24 code files, +370/−158 lines,
 plus the rewritten READMEs. They add no new panels or widgets: the fork is about
 making the shell Russian, responsive, and tidy in the details.
 
@@ -164,26 +164,12 @@ survives fork updates.
   options (browser history, direct URLs, files, AI, Spotify) with no UI at all —
   turning browser-history search off meant editing `config.json` by hand. They
   now live under Settings → Services → Search → Omni-search.
-- **The overview no longer shows the wallpaper through it, and closes smoothly.**
-  The card and the search bar sat in a `Column` whose `opacity` was animated, so
-  the surface was translucent for the first frames and the desktop bled through
-  it. The same flag drove `visible`, so on close the window was destroyed at once
-  and there was no close animation at all. Opacity now applies to the contents
-  (window previews, workspace numbers, search text) while the card itself stays
-  opaque from the first frame; the window lives until the exit animation ends via
-  a `closing` flag; and the timing comes from the appearance presets
-  (`elementMove` to open, `elementMoveFast` for the contents, `elementMoveExit`
-  to close). The desktop behind the overview is dimmed by a full-screen scrim,
-  as in the other overlays.
 
 ### Files this fork touches
 
 ```
 modules/common/Appearance.qml                      animation timings
-modules/ii/overview/Overview.qml                   overview animation and scrim
-modules/ii/overview/OverviewWidget.qml             contents opacity
-modules/ii/overview/SearchWidget.qml               contents opacity
-modules/ii/overview/NiriOverview.qml               contents opacity
+modules/ii/overview/Overview.qml                   unfold from the centre
 modules/ii/bar/SysTrayItem.qml                     tray icon rounding
 modules/ii/background/widgets/clock/DailyClock.qml
 modules/ii/background/widgets/media/MediaWidget.qml

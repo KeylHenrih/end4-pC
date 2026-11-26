@@ -18,10 +18,6 @@ Item {
     required property var screen
     property var panelWindow
 
-    // Mirrors the overview's open/close animation, so the niri layout fades
-    // in and out with the rest of the overview instead of popping.
-    property real contentOpacity: 1
-
     property var monitorData: HyprlandData.monitors.find(m => m.name === Hyprland.focusedMonitor?.name)
 
     property int activeWorkspaceId: {
@@ -256,7 +252,6 @@ Item {
         interactive: !root.isDragging
         boundsBehavior: Flickable.StopAtBounds
         clip: true
-        opacity: root.contentOpacity
 
         TouchpadScrollArea { flickable: flickable }
 
