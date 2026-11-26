@@ -26,6 +26,10 @@ Item { // Wrapper
 
     property Item previewItem: null
     property alias clipboardPopover: clipboardPopover
+    // Mirrors the overview's open/close animation. Applied to the card's
+    // contents only — the card surface itself stays fully opaque so the
+    // wallpaper never shows through it.
+    property real contentOpacity: 1
     property real previewAnchorY: 0
     property real previewMinY: 8
     property real previewMaxBottom: 100000
@@ -215,6 +219,7 @@ Item { // Wrapper
                 horizontalCenter: parent.horizontalCenter
             }
             spacing: 0
+            opacity: root.contentOpacity
 
             // clip: true
             layer.enabled: true

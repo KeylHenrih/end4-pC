@@ -28,7 +28,20 @@ Scope {
             && !Config.options.bar.bottom
             && !Config.options.bar.autoHide.enable
         property bool monitorIsFocused: (Hyprland.focusedMonitor?.id == monitor?.id)
-        visible: GlobalStates.overviewOpen
+        // Keep the window mapped while the closing animation runs. Binding
+        // `visible` straight to the flag unmapped it the instant the flag
+        // flipped, so the overview vanished in a single frame instead of
+        // shrinking away.
+        property bool closing: false
+        readonly property bool shown: GlobalStates.overviewOpen || closing
+        visible: shown
+
+        Timer {
+            id: closeTimer
+            interval: Appearance.animation.elementMoveExit.duration + 60
+            repeat: false
+            onTriggered: panelWindow.closing = false
+        }
 
         WlrLayershell.namespace: "quickshell:overview"
         WlrLayershell.layer: WlrLayer.Top
@@ -56,10 +69,14 @@ Scope {
             target: GlobalStates
             function onOverviewOpenChanged() {
                 if (!GlobalStates.overviewOpen) {
+                    panelWindow.closing = true;
+                    closeTimer.restart();
                     searchWidget.disableExpandAnimation();
                     overviewScope.dontAutoCancelSearch = false;
                     GlobalFocusGrab.dismiss();
                 } else {
+                    closeTimer.stop();
+                    panelWindow.closing = false;
                     if (!overviewScope.dontAutoCancelSearch) {
                         searchWidget.cancelSearch();
                     }
@@ -97,10 +114,36 @@ Scope {
             height: columnLayout.height
         }
 
+        // Full-screen dim behind the card, so the overview reads as its own
+        // layer instead of floating over the desktop. Fades out with the
+        // overview on the way back.
+        Rectangle {
+            id: scrim
+            anchors.fill: parent
+            color: Appearance.colors.colScrim
+            visible: opacity > 0
+            opacity: GlobalStates.overviewOpen ? 1 : 0
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: GlobalStates.overviewOpen
+                        ? Appearance.animation.elementMove.duration
+                        : Appearance.animation.elementMoveExit.duration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: GlobalStates.overviewOpen
+                        ? Appearance.animationCurves.emphasizedDecel
+                        : Appearance.animationCurves.emphasizedAccel
+                }
+            }
+        }
+
         Column {
             id: columnLayout
-            visible: GlobalStates.overviewOpen
-            opacity: GlobalStates.overviewOpen ? 1 : 0
+            visible: panelWindow.shown
+            // The surface itself never fades: a translucent card let the
+            // wallpaper show through it for the first handful of frames.
+            // Only the contents cross-fade, so the backdrop is opaque from
+            // the very first frame.
+            property real contentOpacity: GlobalStates.overviewOpen ? 1 : 0
             scale: GlobalStates.overviewOpen ? 1 : 0.85
             // Centre origin so the overview expands out of the middle of the
             // screen instead of unfolding downward from the bar.
@@ -114,11 +157,27 @@ Scope {
             }
             spacing: -8
 
-            Behavior on opacity {
-                NumberAnimation { duration: 260; easing.type: Easing.OutCubic }
+            Behavior on contentOpacity {
+                NumberAnimation {
+                    duration: GlobalStates.overviewOpen
+                        ? Appearance.animation.elementMoveFast.duration
+                        : Appearance.animation.elementMoveExit.duration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: GlobalStates.overviewOpen
+                        ? Appearance.animationCurves.emphasizedDecel
+                        : Appearance.animationCurves.emphasizedAccel
+                }
             }
             Behavior on scale {
-                NumberAnimation { duration: 360; easing.type: Easing.BezierSpline; easing.bezierCurve: Appearance.animationCurves.expressiveDefaultSpatial }
+                NumberAnimation {
+                    duration: GlobalStates.overviewOpen
+                        ? Appearance.animation.elementMove.duration
+                        : Appearance.animation.elementMoveExit.duration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: GlobalStates.overviewOpen
+                        ? Appearance.animationCurves.expressiveDefaultSpatial
+                        : Appearance.animationCurves.emphasizedAccel
+                }
             }
 
             Keys.onPressed: event => {
@@ -136,6 +195,7 @@ Scope {
             SearchWidget {
                 id: searchWidget
                 anchors.horizontalCenter: parent.horizontalCenter
+                contentOpacity: columnLayout.contentOpacity
                 Synchronizer on searchingText {
                     property alias source: panelWindow.searchingText
                 }
@@ -143,7 +203,10 @@ Scope {
 
             Loader {
                 id: overviewLoader
-                active: GlobalStates.overviewOpen && (Config?.options.overview.enable ?? true)
+                // Keyed to `shown`, not the flag: unloading on the raw flag
+                // destroyed the card the instant it closed, so there was
+                // nothing left to animate out.
+                active: panelWindow.shown && (Config?.options.overview.enable ?? true)
                 sourceComponent: (Config?.options.overview.style ?? "default") === "niri" ? niriComponent : defaultComponent
 
                 Component {
@@ -151,6 +214,7 @@ Scope {
                     OverviewWidget {
                         screen: panelWindow.screen
                         visible: (panelWindow.searchingText == "")
+                        contentOpacity: columnLayout.contentOpacity
                     }
                 }
 
@@ -160,6 +224,7 @@ Scope {
                         screen: panelWindow.screen
                         panelWindow: panelWindow
                         visible: (panelWindow.searchingText == "")
+                        contentOpacity: columnLayout.contentOpacity
                     }
                 }
             }

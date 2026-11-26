@@ -48,6 +48,11 @@ Item {
     property int draggingFromWorkspace: -1
     property int draggingTargetWorkspace: -1
 
+    // Driven by the overview's open/close animation. Kept separate from the
+    // card's own opacity so the surface stays fully opaque and the desktop
+    // never bleeds through it mid-animation.
+    property real contentOpacity: 1
+
     implicitWidth: overviewBackground.implicitWidth + Appearance.sizes.elevationMargin * 2
     implicitHeight: overviewBackground.implicitHeight + Appearance.sizes.elevationMargin * 2
 
@@ -95,6 +100,7 @@ Item {
             z: root.workspaceZ
             anchors.centerIn: parent
             spacing: workspaceSpacing
+            opacity: root.contentOpacity
             
             Repeater {
                 model: Config.options.overview.rows
@@ -178,6 +184,7 @@ Item {
             anchors.centerIn: parent
             implicitWidth: workspaceColumnLayout.implicitWidth
             implicitHeight: workspaceColumnLayout.implicitHeight
+            opacity: root.contentOpacity
 
             Repeater { // Window repeater
                 model: ScriptModel {
